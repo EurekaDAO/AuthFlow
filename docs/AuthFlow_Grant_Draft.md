@@ -16,15 +16,52 @@ Please select one or more of:
 
 ## Description
 
-AuthFlow is an on-chain Identity & Access Management system and a replacement for something like AWS IAM or Azure Active Directory.
+AuthFlow is an on-chain Identity & Access Management system and a replacement for services like Amazon’s AWS IAM or Microsoft’s Azure Active Directory, secured by the Flow Blockchain.
 
 ### Problem statement
 
-Current blockchain-based authentication methods typically only allow a developer to confirm who a user is and has to utilize other Web2 authentication methods and services to do anything beyond smart contract interactions. As we move into a Web3 world there are still many use cases that require secure access to Web2 technologies and even things as simple as just role-based access control to an app's functions.
+Current blockchain-based authentication methods typically only allow a developer to confirm who a user is and has to utilize other Web2 authentication methods and services (ex. Auth0)  to do anything beyond smart contract interactions. As we move into a Web3 world there are still many use cases that require secure access to Web2 technologies. Such as accessing simple things like role-based access control to an app’s functions.
 
 ### Proposed solution
 
-AuthFlow is an on-chain Identity & Access Management system and a replacement for something like AWS IAM or Azure Active Directory. Utilizing the Flow Blockchain we can return control of user identification and authentication to the app developer and end-users. Each app will create its own AuthSystem that can be managed by multiple AuthSystemAdmins. To ensure the integrity of the Authentication System, once the contract is deployed all keys will be removed from the account preventing any future modification of the contracts that change the way the system authenticates users.
+AuthFlow is an on-chain Identity & Access Management system, essentially a replacement for services like Amazon’s AWS IAM or Microsoft’s Azure Active Directory. Utilizing the Flow Blockchain, AuthFlow will return control of user identification and authentication to the app developer and end-users. Each app will create its own AuthSystem that can be managed by multiple AuthSystemAdmins. To ensure the integrity of the Authentication System, once the contract is deployed all keys will be removed from the account preventing any future modification of the contracts that change the way the system authenticates users.
+
+AuthFlow is THE security solution for developers and end-users operating across Web3 and Web2 spaces. The functionality can be defined as an Identity Provider, password manager, and payment method manager merged into one. Your wallet interacts with Web2 as a password/payment method manager across all websites and also serves as your identity provider on the Flow Blockchain.
+
+How it Works
+
+As a developer creating an application, you want to provide secure access to your app.
+
+Identifier through Flow address proving ownership of their on-chain account.
+
+FCL account proof provides functionality to prove a user is in control of a Flow address. All other aspects of authentication, authorization, and session management are up to the application.
+	What is a proof?
+	In Web2 terms, a proof is when someone on their computer accesses a website and attempts to log in, the website then requests a nonce (a random or semi-random number that is generated for a specific use from the server, in this case to login) and is returned a nonce which is then stored on the website as a user object with account proof inside.
+	In Web3 terms, someone at their computer would interact with a website by selecting their wallet (typically as a browser extension) and confirming. The website then sends the wallets’ account proof to the server/backend where it checks for the existence of a nonce, if yes then delete it, and if not then it is not valid. If a nonce is present, the server then checks the account proof with FCL (Flow Client Library “A package used to interact with user wallets and the Flow blockchain. When using FCL for authentication, dapps can support all FCL-compatible wallets on Flow and their users without any custom integrations or changes needed to the dapp code”), FCL returns a confirmation to the website in turn giving access to the user.
+This current Web3 solution lacks protection due to the user’s ability to push artificial data to be verified. AuthFlow solves this problem by independently generating and sending an immutable nonce based on your specific wallet to the server to then be verified by AuthFlow through FCL. Since AuthFlow independently/securely creates and transmits a nonce, only AuthFlow can receive and confirm its validity. This creates a closed loop system that protects its users and developers, immutable by anyone, even the developers.
+
+Technical Functionality
+The contract is deployed
+
+At the top level: Identity provider resource (array of auth systems) and admin resource secured by multi-sig authentication.
+- Auth systems (various grouping of users)
+	- Grouping users
+	- Roles: Define permissions
+		- Assign permissions to roles.
+*May in the future assign permissions to users 
+	- Permission Controls: banned auth systems, require approval before auth system can be deposited and used, create additional admins.
+
+User is Created —> Identity created and a sole-bound NFT is sent to your wallet.
+
+Log into your WALLETNAME wallet —> Functionality of the wallet is essentially defined as an Identity Provider and Password Manager are essentially merged into one. The wallet interacts with Web2 as a password manager across all websites and also serves as your identity provider on the Flow Blockchain.
+
+Identity Providers and how they work - real-world applications
+
+- AuthFlow Server (open source server you host privately)
+- Emerald ID (like sign in with Facebook, peripherally everywhere) *Elastic License
+	- Configurable to be transparent to users about who the identity provider is (Emerald ID)
+- Business Citadel (Like Emerald ID, Business Citadel is a cloud-hosted Identity Provider (and so much more) but focused on the business sector and providing secure employee access to the Web2 world. We will share more information about Business Citadel soon!)
+
 
 - Server SDKs
   - Go (Golang)
